@@ -16,20 +16,20 @@ public class MyCallback implements MqttCallback
 
 	@Override
 	public void messageArrived(String topic, MqttMessage message) {
-		dealDevMsg(topic, message);
+		dealMsg(topic, message);
 	}
 
 	@Override
 	public void deliveryComplete(IMqttDeliveryToken token)	{ return; }
 
-	private void dealDevMsg(String topic, MqttMessage message) {
+	private void dealMsg(String topic, MqttMessage message) {
 		if (message.isRetained()) {
 			return;
 		}
 		System.out.println("in dealDevMsg : topic:	" + topic + "\t");
 
 		if(topic.startsWith("sports/sportInfo")) {
-			dealSportInfo(message);
+			dealSportInfo(topic, message);
 		}
 		switch (topic) {
 			case "Will":
@@ -41,23 +41,33 @@ public class MyCallback implements MqttCallback
 		}
 	}
 
-	//记录运动信息
-	public void dealSportInfo(MqttMessage message) {
+	//处理运动信息
+	public void dealSportInfo(String topic, MqttMessage message) {
 
-		JSONObject obj = JSON.parseObject(message.getPayload().toString());
+		String userName = topic.substring(topic.lastIndexOf('/') + 1);
 
-		InfluxDealData.writeSportInfoIntoDB(obj.getString("tag"), obj.getDoubleValue("longitude"),
-				obj.getDoubleValue("latitude"), obj.getDoubleValue("elevation"),
-				obj.getDoubleValue("speed"), obj.getDoubleValue("direction_x"),
-				obj.getDoubleValue("direction_y"), obj.getDoubleValue("direction_z"),
-				obj.getDoubleValue("accelerated_x"), obj.getDoubleValue("accelerated_y"),
-				obj.getDoubleValue("accelerated_z"), obj.getInteger("steps"));
+		//try {
+		System.out.println("payload:"+new String(message.getPayload()));
+			JSONObject obj = JSON.parseObject(new String(message.getPayload()));
+		System.out.println(obj);
+			InfluxDealData.writeSportInfoIntoDB(obj.getString("tag"), obj.getDoubleValue("longitude"),
+					obj.getDoubleValue("latitude"), obj.getDoubleValue("elevation"),
+					obj.getDoubleValue("speed"), obj.getDoubleValue("azimuth"),
+					obj.getDoubleValue("pitch"), obj.getDoubleValue("roll"),
+					obj.getDoubleValue("accelerated_x"), obj.getDoubleValue("accelerated_y"),
+					obj.getDoubleValue("accelerated_z"), obj.getInteger("steps"));
+		/*}catch (Exception e){
+			System.out.println("error：mqtt接收到不正确的格式");
+		}*/
+
+
+		//返回处理后的信息
+		MySubscribe.myPublish("sports/processedInfo/"+userName, "recvived");
 	}
 
 
 	//记录异常掉线
 	public void dealWill(MqttMessage message) 	{
-
 	}
 
 

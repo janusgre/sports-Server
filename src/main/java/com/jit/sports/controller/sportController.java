@@ -1,7 +1,7 @@
 package com.jit.sports.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jit.sports.InfluxDB.InfluxDealData;
-import com.jit.sports.entry.SportDetailInfo;
 import com.jit.sports.entry.SportInfo;
 import com.jit.sports.service.UserService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 @RequestMapping("/sport")
@@ -34,9 +33,8 @@ public class sportController {
     public void overSport(@RequestParam (value = "tag")String tag) {
 
         String time = ft.format(new Date());
-        userService.updateSport(tag, time,
-        100, 20, 20, 80,
-        20, 3 , 0);
+        userService.updateSport(tag, time,        100, 20, 20,
+                80, 20, 3 , 0);
     }
 
     //查看所有运动
@@ -47,7 +45,7 @@ public class sportController {
 
     //查看运动详情
     @RequestMapping("/detail")
-    public ArrayList<SportDetailInfo> detail(@RequestParam (value = "tag")String tag) {
+    public JSONObject detail(@RequestParam (value = "tag")String tag) {
         return InfluxDealData.getSportDetailByTag(tag);
     }
 

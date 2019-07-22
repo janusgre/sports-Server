@@ -35,8 +35,8 @@ public class InfluxDBConnection
 		this.password = password;
 		this.openurl = openurl;
 		this.database = database;
-		this.retentionPolicy = retentionPolicy == null || 
-				retentionPolicy.equals("") ? "autogen" : retentionPolicy;
+		//保存策略，默认为“autogen”,但是有的版本默认是“default”，可以用show retention policies on databasename查看
+		this.retentionPolicy = retentionPolicy == null || retentionPolicy.equals("") ? "default" : retentionPolicy;
 		influxDbBuild();
 	}
 

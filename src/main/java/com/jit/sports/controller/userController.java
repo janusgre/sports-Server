@@ -21,24 +21,24 @@ public class userController {
 
     //用户登录
     @RequestMapping("/login")
-    public int login(@RequestParam(value = "userName") String userName,
+    public String login(@RequestParam(value = "userName") String userName,
                        @RequestParam(value = "password") String password) {
         if(userService.login(userName, password) == null) {
-            return 0;
+            return "false";
         }
-        return 1;
+        return "true";
     }
 
     //用户注册
     @RequestMapping("/reg")
-    public int reg(@RequestParam(value = "userName") String userName,
+    public String reg(@RequestParam(value = "userName") String userName,
                        @RequestParam(value = "password") String password) {
         //检查是否被注册
         if(userService.existUserName(userName) != null) {
-            return 0;
+            return "false";
         }
         userService.reg(userName, password);
-        return 1;
+        return "true";
     }
 
     @RequestMapping("/hello")
