@@ -30,11 +30,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void insertSport(String tag, String userName, String startTime, String overTime, double totalDistance,
-                            double totalUp, double totalDown, double averageSpeed, double maxSpeed,
-                            double maxElevation, double minElevation) {
-        userDao.insertSport(tag, userName, startTime, overTime, totalDistance, totalUp, totalDown, averageSpeed,
-                maxSpeed, maxElevation, minElevation);
+    public void insertSport(String tag, String userName, String startTime) {
+        userDao.insertSport(tag, userName, startTime);
+    }
+
+    @Override
+    public void updateSport(String tag, String overTime, double totalDistance, double totalUp, double totalDown, double averageSpeed, double maxSpeed, double maxElevation, double minElevation) {
+        userDao.updateSport(tag, overTime, totalDistance, totalUp, totalDown, averageSpeed, maxSpeed, maxElevation, minElevation);
     }
 
     @Override

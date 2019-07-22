@@ -17,11 +17,14 @@
         insert into user (userName, password) values (#{userName}, #{password})
     </insert>
 
+    <update id="updateSport">
+        update sportInfo set overTime=#{overTime}, totalDistance=#{totalDistance}, totalUp=#{totalUp},
+        totalDown=#{totalDown}, averageSpeed=#{averageSpeed}, maxSpeed=#{maxSpeed},
+        maxElevation=#{maxElevation}, minElevation=#{minElevation} where tag=#{tag}
+    </update>
+
     <insert id="insertSport">
-        insert into sportInfo (tag, userName, startTime, overTime, totalDistance,
-        totalUp, totalDown, averageSpeed, maxSpeed, maxElevation, minElevation) values (#{tag},
-        #{userName},#{startTime},#{overTime},#{totalDistance},#{totalUp},#{totalDown},#{averageSpeed},
-        #{maxSpeed},#{maxElevation},#{minElevation})
+        insert into sportInfo (tag, userName, startTime) values (#{tag},#{userName},#{startTime})
     </insert>
 
     <select id="selectSportByName" resultType="com.jit.sports.entry.SportInfo">

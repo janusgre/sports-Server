@@ -23,8 +23,7 @@ public class InfluxDealData {
                                             double elevation, double speed, double direction_x,
                                             double direction_y, double direction_z,
                                             double accelerated_x, double accelerated_y,
-                                            double accelerated_z, int steps
-                                            ) {
+                                            double accelerated_z, int steps) {
         Map<String, String> tags = new HashMap<String, String>();
         Map<String, Object> fields = new HashMap<String, Object>();
         tags.put("tag", tag);

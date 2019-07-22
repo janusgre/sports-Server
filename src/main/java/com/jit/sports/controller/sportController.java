@@ -19,19 +19,22 @@ public class sportController {
     @Resource
     UserService userService;
 
+    private SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     //开始一次运动
     @RequestMapping("/startSport")
     public String startSport(@RequestParam (value = "userName")String userName) {
-        String tag = userName + System.currentTimeMillis();
+        long now = System.currentTimeMillis();
+        String tag = userName + now;
+        userService.insertSport(tag, userName, ft.format(now));
         return tag;
     }
 
     //结束一次运动
     @RequestMapping("/overSport")
     public void overSport(@RequestParam (value = "tag")String tag) {
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
         String time = ft.format(new Date());
-        userService.insertSport(tag, "shiyu", time, time,
+        userService.updateSport(tag, time,
         100, 20, 20, 80,
         20, 3 , 0);
     }
