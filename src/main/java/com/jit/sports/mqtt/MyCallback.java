@@ -50,7 +50,7 @@ public class MyCallback implements MqttCallback
 			System.out.println("payload:"+new String(message.getPayload()));
 			JSONObject obj = JSON.parseObject(new String(message.getPayload()));
 			System.out.println(obj);
-			InfluxDealData.writeSportInfoIntoDB(obj.getString("tag"), obj.getDoubleValue("longitude"),
+			InfluxDealData.writeSportInfoIntoDB(obj.getString("sportTag"), obj.getDoubleValue("longitude"),
 					obj.getDoubleValue("latitude"), obj.getDoubleValue("altitude"),
 					obj.getDoubleValue("speed"), obj.getDoubleValue("azimuth"),
 					obj.getDoubleValue("pitch"), obj.getDoubleValue("roll"),

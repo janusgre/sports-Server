@@ -1,7 +1,8 @@
 package com.jit.sports.entry;
 
 public class SportInfo {
-    private String tag;
+
+    private String sportTag;
     private String userName;
     private String startTime;
     private String overTime;
@@ -11,14 +12,31 @@ public class SportInfo {
     private double averageSpeed;
     private double maxSpeed;
     private double maxAltitude;
-    private double minAltitude;
 
-    public String getTag() {
-        return tag;
+    public double getMinAltitude() {
+        return minAltitude;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setMinAltitude(double minAltitude) {
+        this.minAltitude = minAltitude;
+    }
+
+    private double minAltitude;
+
+    public double getMaxAltitude() {
+        return maxAltitude;
+    }
+
+    public void setMaxAltitude(double maxAltitude) {
+        this.maxAltitude = maxAltitude;
+    }
+
+    public String getSportTag() {
+        return sportTag;
+    }
+
+    public void setSportTag(String sportTag) {
+        this.sportTag = sportTag;
     }
 
     public String getUserName() {
@@ -83,21 +101,5 @@ public class SportInfo {
 
     public void setMaxSpeed(double maxSpeed) {
         this.maxSpeed = maxSpeed;
-    }
-
-    public double getmaxAltitude() {
-        return maxAltitude;
-    }
-
-    public void setmaxAltitude(double maxAltitude) {
-        this.maxAltitude = maxAltitude;
-    }
-
-    public double getminAltitude() {
-        return minAltitude;
-    }
-
-    public void setminAltitude(double minAltitude) {
-        this.minAltitude = minAltitude;
     }
 }

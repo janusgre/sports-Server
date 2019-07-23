@@ -1,15 +1,11 @@
 package com.jit.sports.InfluxDB;
 import com.alibaba.fastjson.JSONObject;
 import com.jit.sports.Utils.PropertiesUtil;
-import com.jit.sports.entry.SportDetailInfo;
 import org.influxdb.dto.QueryResult;
-import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class InfluxDealData {
 
@@ -20,14 +16,14 @@ public class InfluxDealData {
     private static InfluxDBConnection influxDBConnection = new InfluxDBConnection(InfluxUsername,
             InfluxPasswd, InfluxOpenUrl,InfluxDatabase, null);
 
-    public static void writeSportInfoIntoDB(String tag, double longitude, double latitude,
+    public static void writeSportInfoIntoDB(String sportTag, double longitude, double latitude,
                                             double altitude, double speed, double azimuth,
                                             double pitch, double roll,
                                             double accelerated_x, double accelerated_y,
                                             double accelerated_z, int steps) {
         Map<String, String> tags = new HashMap<String, String>();
         Map<String, Object> fields = new HashMap<String, Object>();
-        tags.put("sportTag", tag);
+        tags.put("sportTag", sportTag);
         fields.put("longitude", longitude);
         fields.put("latitude", latitude);
         fields.put("altitude", altitude);
@@ -43,17 +39,17 @@ public class InfluxDealData {
         influxDBConnection.insert("sportDetail", tags, fields, System.currentTimeMillis(),
                 TimeUnit.MILLISECONDS);
 
-        System.out.println(tag + "插入一条记录。");
+        System.out.println(sportTag + "插入一条记录。");
     }
 
-    public static JSONObject getSportDetailByTag(String tag) {
+    public static JSONObject getSportDetailByTag(String sportTag) {
         System.out.println("SELECT time,longitude,latitude,altitude,speed,azimuth,pitch,roll,accelerated_x," +
                 "accelerated_y,accelerated_z,steps FROM sportDetail " +
-                "where sportTag = '"+ tag +"'  order by time asc");
+                "where sportTag = '"+ sportTag +"'  order by time asc");
         QueryResult results = influxDBConnection
                 .query("SELECT time,longitude,latitude,altitude,speed,azimuth,pitch,roll,accelerated_x," +
                         "accelerated_y,accelerated_z,steps FROM sportDetail " +
-                        "where sportTag = '"+ tag +"'  order by time asc");
+                        "where sportTag = '"+ sportTag +"'  order by time asc");
 
         QueryResult.Result oneResult = results.getResults().get(0);
         List<QueryResult.Series> series = oneResult.getSeries();

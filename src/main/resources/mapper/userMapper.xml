@@ -20,11 +20,11 @@
     <update id="updateSport">
         update sportInfo set overTime=#{overTime}, totalDistance=#{totalDistance}, totalUp=#{totalUp},
         totalDown=#{totalDown}, averageSpeed=#{averageSpeed}, maxSpeed=#{maxSpeed},
-        maxAltitude=#{maxAltitude}, minAltitude=#{minAltitude} where tag=#{tag}
+        maxAltitude=#{maxAltitude}, minAltitude=#{minAltitude} where sportTag=#{sportTag}
     </update>
 
     <insert id="insertSport">
-        insert into sportInfo (tag, userName, startTime) values (#{tag},#{userName},#{startTime})
+        insert into sportInfo (sportTag, userName, startTime) values (#{sportTag},#{userName},#{startTime})
     </insert>
 
     <select id="selectSportByName" resultType="com.jit.sports.entry.SportInfo">

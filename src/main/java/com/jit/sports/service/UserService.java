@@ -9,9 +9,9 @@ public interface UserService {
     UserInfo login(String userName, String password);
     String existUserName(String userName);
     void reg(String userName, String password);
-    void insertSport(String tag, String userName, String startTime);
+    void insertSport(String sportTag, String userName, String startTime);
 
-    void updateSport(String tag, String overTime,double totalDistance, double totalUp, double totalDown,
+    void updateSport(String sportTag, String overTime,double totalDistance, double totalUp, double totalDown,
                      double averageSpeed, double maxSpeed, double maxAltitude, double minAltitude);
 
     SportInfo[] selectSportByName(String userName);

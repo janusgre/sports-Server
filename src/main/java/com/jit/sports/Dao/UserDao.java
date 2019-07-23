@@ -12,9 +12,9 @@ public interface UserDao {
     void reg(String userName, String password);
 
     //插入一次运动
-    void insertSport(String tag, String userName, String startTime);
+    void insertSport(String sportTag, String userName, String startTime);
 
-    void updateSport(String tag, String overTime,double totalDistance, double totalUp, double totalDown,
+    void updateSport(String sportTag, String overTime,double totalDistance, double totalUp, double totalDown,
                      double averageSpeed, double maxSpeed, double maxAltitude, double minAltitude);
 
     //根据用户查找所有运动

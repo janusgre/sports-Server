@@ -23,17 +23,17 @@ public class sportController {
     @RequestMapping("/startSport")
     public String startSport(@RequestParam (value = "userName")String userName) {
         long now = System.currentTimeMillis();
-        String tag = userName + now;
-        userService.insertSport(tag, userName, ft.format(now));
-        return tag;
+        String sportTag = userName + now;
+        userService.insertSport(sportTag, userName, ft.format(now));
+        return sportTag;
     }
 
     //结束一次运动
     @RequestMapping("/overSport")
-    public void overSport(@RequestParam (value = "tag")String tag) {
+    public void overSport(@RequestParam (value = "sportTag")String sportTag) {
 
         String time = ft.format(new Date());
-        userService.updateSport(tag, time,        100, 20, 20,
+        userService.updateSport(sportTag, time,        100, 20, 20,
                 80, 20, 3 , 0);
     }
 
@@ -45,8 +45,8 @@ public class sportController {
 
     //查看运动详情
     @RequestMapping("/detail")
-    public JSONObject detail(@RequestParam (value = "tag")String tag) {
-        return InfluxDealData.getSportDetailByTag(tag);
+    public JSONObject detail(@RequestParam (value = "sportTag")String sportTag) {
+        return InfluxDealData.getSportDetailByTag(sportTag);
     }
 
 
