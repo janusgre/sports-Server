@@ -42,7 +42,7 @@ public class MyCallback implements MqttCallback
 	}
 
 	//处理运动信息
-	public void dealSportInfo(String topic, MqttMessage message) {
+	private void dealSportInfo(String topic, MqttMessage message) {
 
 		String userName = topic.substring(topic.lastIndexOf('/') + 1);
 
