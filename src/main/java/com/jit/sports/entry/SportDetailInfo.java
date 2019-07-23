@@ -4,7 +4,7 @@ public class SportDetailInfo {
     private String time;
     private double longitude;
     private double latitude;
-    private double elevation;
+    private double altitude;
     private double speed;
     private double direction_x;
     private double direction_y;
@@ -38,12 +38,12 @@ public class SportDetailInfo {
         this.latitude = latitude;
     }
 
-    public double getElevation() {
-        return elevation;
+    public double getAltitude() {
+        return altitude;
     }
 
-    public void setElevation(double elevation) {
-        this.elevation = elevation;
+    public void setAltitude(double altitude) {
+        this.altitude = altitude;
     }
 
     public double getSpeed() {

@@ -20,7 +20,7 @@
     <update id="updateSport">
         update sportInfo set overTime=#{overTime}, totalDistance=#{totalDistance}, totalUp=#{totalUp},
         totalDown=#{totalDown}, averageSpeed=#{averageSpeed}, maxSpeed=#{maxSpeed},
-        maxElevation=#{maxElevation}, minElevation=#{minElevation} where tag=#{tag}
+        maxAltitude=#{maxAltitude}, minAltitude=#{minAltitude} where tag=#{tag}
     </update>
 
     <insert id="insertSport">

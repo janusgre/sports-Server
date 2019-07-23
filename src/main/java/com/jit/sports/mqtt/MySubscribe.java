@@ -50,8 +50,7 @@ public class MySubscribe {
 			client.subscribe(TOPIC_Will, qos);
 
 			System.out.println("mqtt start");
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

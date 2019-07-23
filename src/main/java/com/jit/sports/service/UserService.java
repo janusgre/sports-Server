@@ -12,7 +12,7 @@ public interface UserService {
     void insertSport(String tag, String userName, String startTime);
 
     void updateSport(String tag, String overTime,double totalDistance, double totalUp, double totalDown,
-                     double averageSpeed, double maxSpeed, double maxElevation, double minElevation);
+                     double averageSpeed, double maxSpeed, double maxAltitude, double minAltitude);
 
     SportInfo[] selectSportByName(String userName);
 }

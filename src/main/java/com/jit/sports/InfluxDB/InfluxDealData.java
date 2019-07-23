@@ -21,7 +21,7 @@ public class InfluxDealData {
             InfluxPasswd, InfluxOpenUrl,InfluxDatabase, null);
 
     public static void writeSportInfoIntoDB(String tag, double longitude, double latitude,
-                                            double elevation, double speed, double azimuth,
+                                            double altitude, double speed, double azimuth,
                                             double pitch, double roll,
                                             double accelerated_x, double accelerated_y,
                                             double accelerated_z, int steps) {
@@ -30,7 +30,7 @@ public class InfluxDealData {
         tags.put("sportTag", tag);
         fields.put("longitude", longitude);
         fields.put("latitude", latitude);
-        fields.put("elevation", elevation);
+        fields.put("altitude", altitude);
         fields.put("speed", speed);
         fields.put("azimuth", azimuth);
         fields.put("pitch", pitch);
@@ -47,11 +47,11 @@ public class InfluxDealData {
     }
 
     public static JSONObject getSportDetailByTag(String tag) {
-        System.out.println("SELECT time,longitude,latitude,elevation,speed,azimuth,pitch,roll,accelerated_x," +
+        System.out.println("SELECT time,longitude,latitude,altitude,speed,azimuth,pitch,roll,accelerated_x," +
                 "accelerated_y,accelerated_z,steps FROM sportDetail " +
                 "where sportTag = '"+ tag +"'  order by time asc");
         QueryResult results = influxDBConnection
-                .query("SELECT time,longitude,latitude,elevation,speed,azimuth,pitch,roll,accelerated_x," +
+                .query("SELECT time,longitude,latitude,altitude,speed,azimuth,pitch,roll,accelerated_x," +
                         "accelerated_y,accelerated_z,steps FROM sportDetail " +
                         "where sportTag = '"+ tag +"'  order by time asc");
 

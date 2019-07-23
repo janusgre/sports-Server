@@ -10,8 +10,8 @@ public class SportInfo {
     private double totalDown;
     private double averageSpeed;
     private double maxSpeed;
-    private double maxElevation;
-    private double minElevation;
+    private double maxAltitude;
+    private double minAltitude;
 
     public String getTag() {
         return tag;
@@ -85,19 +85,19 @@ public class SportInfo {
         this.maxSpeed = maxSpeed;
     }
 
-    public double getMaxElevation() {
-        return maxElevation;
+    public double getmaxAltitude() {
+        return maxAltitude;
     }
 
-    public void setMaxElevation(double maxElevation) {
-        this.maxElevation = maxElevation;
+    public void setmaxAltitude(double maxAltitude) {
+        this.maxAltitude = maxAltitude;
     }
 
-    public double getMinElevation() {
-        return minElevation;
+    public double getminAltitude() {
+        return minAltitude;
     }
 
-    public void setMinElevation(double minElevation) {
-        this.minElevation = minElevation;
+    public void setminAltitude(double minAltitude) {
+        this.minAltitude = minAltitude;
     }
 }

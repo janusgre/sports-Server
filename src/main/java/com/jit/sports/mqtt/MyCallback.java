@@ -46,19 +46,19 @@ public class MyCallback implements MqttCallback
 
 		String userName = topic.substring(topic.lastIndexOf('/') + 1);
 
-		//try {
-		System.out.println("payload:"+new String(message.getPayload()));
+		try {
+			System.out.println("payload:"+new String(message.getPayload()));
 			JSONObject obj = JSON.parseObject(new String(message.getPayload()));
-		System.out.println(obj);
+			System.out.println(obj);
 			InfluxDealData.writeSportInfoIntoDB(obj.getString("tag"), obj.getDoubleValue("longitude"),
-					obj.getDoubleValue("latitude"), obj.getDoubleValue("elevation"),
+					obj.getDoubleValue("latitude"), obj.getDoubleValue("altitude"),
 					obj.getDoubleValue("speed"), obj.getDoubleValue("azimuth"),
 					obj.getDoubleValue("pitch"), obj.getDoubleValue("roll"),
 					obj.getDoubleValue("accelerated_x"), obj.getDoubleValue("accelerated_y"),
 					obj.getDoubleValue("accelerated_z"), obj.getInteger("steps"));
-		/*}catch (Exception e){
+		}catch (Exception e){
 			System.out.println("error：mqtt接收到不正确的格式");
-		}*/
+		}
 
 
 		//返回处理后的信息
