@@ -53,7 +53,11 @@ public class InfluxDealData {
 
         QueryResult.Result oneResult = results.getResults().get(0);
         List<QueryResult.Series> series = oneResult.getSeries();
+
         JSONObject res = new JSONObject();
+        if(series == null) {
+            return res;
+        }
         for(QueryResult.Series series1 : series) {
             res.put("columns", series1.getColumns());
             res.put("values", series1.getValues());

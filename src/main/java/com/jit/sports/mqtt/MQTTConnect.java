@@ -9,7 +9,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import java.util.Random;
 
-public class MySubscribe {
+public class MQTTConnect {
 
 	static private String TOPIC_Will = "Will";
 
@@ -20,7 +20,7 @@ public class MySubscribe {
 	public static MqttClient client;
 
 
-	public MySubscribe() {
+	public MQTTConnect() {
 		Random random = new Random();
 		String clientid = String.valueOf(random.nextInt(10000));
 
