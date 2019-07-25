@@ -15,4 +15,5 @@ public interface UserService {
                      double averageSpeed, double maxSpeed, double maxAltitude, double minAltitude);
 
     SportInfo[] selectSportByName(String userName);
+    SportInfo selectSportByTag(String sportTag);
 }

@@ -20,6 +20,7 @@ public interface UserDao {
     //根据用户查找所有运动
     SportInfo[] selectSportByName(String userName);
 
+    SportInfo selectSportByTag(String sportTag);
     //根据用户查找固定时间段的运动
 
 }

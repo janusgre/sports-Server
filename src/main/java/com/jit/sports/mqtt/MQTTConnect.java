@@ -54,10 +54,10 @@ public class MQTTConnect {
 			e.printStackTrace();
 		}
 	}
-	public static void myPublish(String topic, String msg) {
+	public static void myPublish(String topic, byte[] msg) {
 		try {
 			System.out.println("pubish:"+topic+"\t"+msg);
-			client.publish(topic, new MqttMessage(msg.getBytes()));
+			client.publish(topic, new MqttMessage(msg));
 		} catch (MqttException e) {
 			e.printStackTrace();
 		}

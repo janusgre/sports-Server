@@ -43,4 +43,9 @@ public class UserServiceImpl implements UserService {
     public SportInfo[] selectSportByName(String userName) {
         return userDao.selectSportByName(userName);
     }
+
+    @Override
+    public SportInfo selectSportByTag(String sportTag) {
+        return userDao.selectSportByTag(sportTag);
+    }
 }

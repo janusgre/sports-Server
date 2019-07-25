@@ -12,6 +12,24 @@ public class SportInfo {
     private double averageSpeed;
     private double maxSpeed;
     private double maxAltitude;
+    private String sportTitle;
+    private String mode;
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public String getSportTitle() {
+        return sportTitle;
+    }
+
+    public void setSportTitle(String sportTitle) {
+        this.sportTitle = sportTitle;
+    }
 
     public double getMinAltitude() {
         return minAltitude;

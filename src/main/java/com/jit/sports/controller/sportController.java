@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jit.sports.InfluxDB.InfluxDealData;
 import com.jit.sports.entry.SportInfo;
 import com.jit.sports.service.UserService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@CrossOrigin
 @RequestMapping("/sport")
 @RestController
 public class sportController {
@@ -41,6 +43,11 @@ public class sportController {
     @RequestMapping("/mySports")
     public SportInfo[] mySports(@RequestParam (value = "userName")String userName) {
         return userService.selectSportByName(userName);
+    }
+
+    @RequestMapping("/oneSport")
+    public SportInfo oneSport(@RequestParam (value = "sportTag")String sportTag) {
+        return userService.selectSportByTag(sportTag);
     }
 
     //查看运动详情

@@ -3,12 +3,14 @@ package com.jit.sports.mqtt;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jit.sports.InfluxDB.InfluxDealData;
+import com.jit.sports.entry.Redis;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class MyCallback implements MqttCallback
 {
+
 	@Override
 	public void connectionLost(Throwable cause) {
 		System.out.println("MQTT : connectionLost\n" + cause);
@@ -49,6 +51,16 @@ public class MyCallback implements MqttCallback
 		try {
 			System.out.println("payload:"+new String(message.getPayload()));
 			JSONObject obj = JSON.parseObject(new String(message.getPayload()));
+			if(obj.getString("altitude").contains("5e-324")) {
+                System.out.println("5e-324");
+			    return;
+            }
+
+			//处理信息后返回给客户
+            JSONObject nowMessage = Redis.getDtae(obj);
+            MQTTConnect.myPublish("sports/processedInfo/"+userName, nowMessage.toString().getBytes());
+
+            //写入数据库
 			InfluxDealData.writeSportInfoIntoDB(obj.getString("sportTag"), obj.getDoubleValue("longitude"),
 					obj.getDoubleValue("latitude"), obj.getDoubleValue("altitude"),
 					obj.getDoubleValue("speed"), obj.getDoubleValue("azimuth"),
@@ -56,18 +68,20 @@ public class MyCallback implements MqttCallback
 					obj.getDoubleValue("accelerated_x"), obj.getDoubleValue("accelerated_y"),
 					obj.getDoubleValue("accelerated_z"), obj.getInteger("steps"));
 		}catch (Exception e){
-			System.out.println("error：mqtt接收到不正确的格式");
+			System.out.println("mqtt error：可能接收到了不正确的格式");
 		}
 
 
 		//返回处理后的信息
-		MQTTConnect.myPublish("sports/processedInfo/"+userName, "recvived");
+
 	}
 
 
 	//记录异常掉线
 	public void dealWill(MqttMessage message) 	{
+		System.out.println("in Will:"+new String(message.getPayload()));
 	}
+
 
 
 }
