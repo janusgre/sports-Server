@@ -2,10 +2,13 @@ package com.jit.sports.InfluxDB;
 import com.alibaba.fastjson.JSONObject;
 import com.jit.sports.Utils.PropertiesUtil;
 import org.influxdb.dto.QueryResult;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class InfluxDealData {
 
@@ -43,12 +46,8 @@ public class InfluxDealData {
     }
 
     public static JSONObject getSportDetailByTag(String sportTag) {
-        System.out.println("SELECT time,longitude,latitude,altitude,speed,azimuth,pitch,roll,accelerated_x," +
-                "accelerated_y,accelerated_z,steps FROM sportDetail " +
-                "where sportTag = '"+ sportTag +"'  order by time asc");
         QueryResult results = influxDBConnection
-                .query("SELECT time,longitude,latitude,altitude,speed,azimuth,pitch,roll,accelerated_x," +
-                        "accelerated_y,accelerated_z,steps FROM sportDetail " +
+                .query("SELECT time,longitude,latitude,altitude,speed,steps FROM sportDetail " +
                         "where sportTag = '"+ sportTag +"'  order by time asc");
 
         QueryResult.Result oneResult = results.getResults().get(0);
@@ -64,6 +63,27 @@ public class InfluxDealData {
         }
         return res;
 
+    }
+    public  static  List<Double> getOneValue(String sportTag, String key) {
+        QueryResult results = influxDBConnection
+                .query("SELECT "+ key +" FROM sportDetail " +
+                        "where sportTag = '"+ sportTag +"'  order by time asc");
+
+        QueryResult.Result oneResult = results.getResults().get(0);
+        List<List<Object>> valueList = null;
+        List<Double>res = new ArrayList<>();
+        if (oneResult.getSeries() != null)
+        {
+            valueList = oneResult.getSeries().stream().map(QueryResult.Series::getValues)
+                    .collect(Collectors.toList()).get(0);
+            if (valueList != null && valueList.size() > 0) {
+                for (List<Object> value : valueList) {
+                    String result = value.get(1) == null ? null : value.get(1).toString();
+                    res.add(Double.valueOf(result));
+                }
+            }
+        }
+        return res;
     }
 
 }

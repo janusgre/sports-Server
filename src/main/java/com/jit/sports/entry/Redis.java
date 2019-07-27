@@ -1,6 +1,7 @@
 package com.jit.sports.entry;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jit.sports.Utils.PropertiesUtil;
 import redis.clients.jedis.Jedis;
 
 import java.util.HashMap;
@@ -9,7 +10,9 @@ import java.util.Map;
 public class Redis {
 
     public static JSONObject getDtae(JSONObject obj) {
-        Jedis jedis = new Jedis("127.0.0.1", 6379);
+        String JedisHost = PropertiesUtil.getProperty("redis.host");
+        int port = Integer.parseInt(PropertiesUtil.getProperty("redis.port"));
+        Jedis jedis = new Jedis("47.102.152.12", 6379);
         JSONObject nowMessage = new JSONObject();
         String userTag = obj.getString("sportTag");
         double longitude = obj.getDoubleValue("longitude");
@@ -27,7 +30,7 @@ public class Redis {
             laterRedis.put("currentTime", "0");
             laterRedis.put("currentUp", "0");
             laterRedis.put("currentDown", "0");
-
+            laterRedis.put("startSteps",String.valueOf(obj.getInteger("steps")));
 
             jedis.hmset(obj.getString("sportTag"), laterRedis);
             nowMessage.put("currentMileage", 0);
@@ -36,7 +39,7 @@ public class Redis {
             nowMessage.put("xSpeed", 0);
             nowMessage.put("currentUp", 0);
             nowMessage.put("currentDown", 0);
-            nowMessage.put("currentSteps", obj.getInteger("steps"));
+            nowMessage.put("currentSteps", 0);
             nowMessage.put("xSteps", 0);
 
             //System.out.println("11111111111111111111111111111");
@@ -45,7 +48,7 @@ public class Redis {
 
             laterRedis = jedis.hgetAll(userTag);
             //计算返回信息
-            Double distance = Double.valueOf(laterRedis.get("currentMileage")) + Sparse.getDistance(Double.valueOf(laterRedis.get("longitude")), Double.valueOf(laterRedis.get("latitude")), longitude, latitude);
+            Double distance = Double.valueOf(laterRedis.get("currentMileage")) + Sparse.getDistance(Double.valueOf(laterRedis.get("latitude")), Double.valueOf(laterRedis.get("longitude")), latitude,longitude );
             long time = Long.valueOf(laterRedis.get("currentTime")) + 1;
             double speed = distance / time;
             double xspeed = 0;
@@ -68,13 +71,13 @@ public class Redis {
             jedis.hmset(obj.getString("sportTag"), laterRedis);
             //给返回赋值信息
 
-            nowMessage.put("currentMileage", distance);
+            nowMessage.put("currentMileage", Math.round(distance*100.0)/100.0);
             nowMessage.put("currentSpeed", obj.getDoubleValue("speed"));
             nowMessage.put("averageSpeed", speed);
             nowMessage.put("xSpeed", xspeed);
             nowMessage.put("currentUp", currentUp);
             nowMessage.put("currentDown", currentDown);
-            nowMessage.put("currentSteps", obj.getInteger("steps"));
+            nowMessage.put("currentSteps", obj.getInteger("steps")-Long.valueOf(laterRedis.get("startSteps")));
             nowMessage.put("xSteps", xsteps);
 
             //System.out.println("2222222222222222222222222222222222222");

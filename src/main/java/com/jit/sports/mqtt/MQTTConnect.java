@@ -56,7 +56,7 @@ public class MQTTConnect {
 	}
 	public static void myPublish(String topic, byte[] msg) {
 		try {
-			System.out.println("pubish:"+topic+"\t"+msg);
+			System.out.println("pubish:"+topic);
 			client.publish(topic, new MqttMessage(msg));
 		} catch (MqttException e) {
 			e.printStackTrace();

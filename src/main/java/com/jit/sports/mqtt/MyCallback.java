@@ -57,8 +57,12 @@ public class MyCallback implements MqttCallback
             }
 
 			//处理信息后返回给客户
-            JSONObject nowMessage = Redis.getDtae(obj);
-            MQTTConnect.myPublish("sports/processedInfo/"+userName, nowMessage.toString().getBytes());
+            try{
+                JSONObject nowMessage = Redis.getDtae(obj);
+                MQTTConnect.myPublish("sports/processedInfo/"+userName, nowMessage.toString().getBytes());
+            }catch (Exception e){
+                System.out.println("mqtt error：radis可能未打开");
+            }
 
             //写入数据库
 			InfluxDealData.writeSportInfoIntoDB(obj.getString("sportTag"), obj.getDoubleValue("longitude"),
