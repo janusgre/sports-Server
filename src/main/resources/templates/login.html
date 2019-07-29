@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>八只脚</title>
+	<link rel="stylesheet" href="http://47.102.152.12:8080/css/loginStyle.css" />
+</head>
+
+<body>
+<div class="container">
+
+	<div class="panel">
+		<div class="content login">
+			<div class="switch">
+				<span id='login' class='active'>Login</span><span>/</span><span id='signup'>Sign Up</span>
+			</div>
+			<form action="">
+				<input type="text" id="userName" name="userName" placeholder="Username" />
+				<input type="password" id="password" name="password" placeholder="Password" />
+				<input type="password" id="repeat" name="repeat" placeholder="Repeat" />
+				<p type="errorbox" id="error_box">login fail<br></p>
+				<button type = "button" id="myButton">LOGIN</button>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+<script src="http://47.102.152.12:8080/js/lib/jquery.min.js"></script>
+<script src="http://47.102.152.12:8080/js/lib/jquery.params.js"></script>
+<script src="http://47.102.152.12:8080/js/login.js"></script>
+
+</html>

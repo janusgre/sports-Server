@@ -3,7 +3,7 @@ package com.jit.sports.mqtt;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jit.sports.InfluxDB.InfluxDealData;
-import com.jit.sports.entry.Redis;
+import com.jit.sports.extra.Redis;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -59,7 +59,7 @@ public class MyCallback implements MqttCallback
 			//处理信息后返回给客户
             try{
                 JSONObject nowMessage = Redis.getDtae(obj);
-                MQTTConnect.myPublish("sports/processedInfo/"+userName, nowMessage.toString().getBytes());
+                MQTTClient.myPublish("sports/processedInfo/"+userName, nowMessage.toString().getBytes());
             }catch (Exception e){
                 System.out.println("mqtt error：radis可能未打开");
             }
@@ -74,10 +74,6 @@ public class MyCallback implements MqttCallback
 		}catch (Exception e){
 			System.out.println("mqtt error：可能接收到了不正确的格式");
 		}
-
-
-		//返回处理后的信息
-
 	}
 
 

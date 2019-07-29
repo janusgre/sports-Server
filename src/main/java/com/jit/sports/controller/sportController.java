@@ -35,7 +35,7 @@ public class sportController {
     public void overSport(@RequestParam (value = "sportTag")String sportTag) {
 
         String time = ft.format(new Date());
-        userService.updateSport(sportTag, time,        100, 20, 20,
+        userService.updateSport(sportTag, time,100, 20, 20,
                 80, 20, 3 , 0);
     }
 

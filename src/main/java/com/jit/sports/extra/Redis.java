@@ -1,4 +1,4 @@
-package com.jit.sports.entry;
+package com.jit.sports.extra;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jit.sports.Utils.PropertiesUtil;
@@ -72,11 +72,11 @@ public class Redis {
             //给返回赋值信息
 
             nowMessage.put("currentMileage", Math.round(distance*100.0)/100.0);
-            nowMessage.put("currentSpeed", obj.getDoubleValue("speed"));
-            nowMessage.put("averageSpeed", speed);
-            nowMessage.put("xSpeed", xspeed);
-            nowMessage.put("currentUp", currentUp);
-            nowMessage.put("currentDown", currentDown);
+            nowMessage.put("currentSpeed", Math.round((obj.getDoubleValue("speed"))*100.0)/100.0);
+            nowMessage.put("averageSpeed", Math.round(speed*100.0)/100.0);
+            nowMessage.put("xSpeed", Math.round(xspeed*100.0)/100.0);
+            nowMessage.put("currentUp", Math.round(currentUp*100.0)/100.0);
+            nowMessage.put("currentDown", Math.round(currentDown*100.0)/100.0);
             nowMessage.put("currentSteps", obj.getInteger("steps")-Long.valueOf(laterRedis.get("startSteps")));
             nowMessage.put("xSteps", xsteps);
 

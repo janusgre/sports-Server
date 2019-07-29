@@ -1,4 +1,4 @@
-package com.jit.sports.entry;
+package com.jit.sports.extra;
 
 
 import java.util.ArrayList;

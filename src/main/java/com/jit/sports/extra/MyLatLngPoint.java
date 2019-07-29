@@ -1,4 +1,4 @@
-package com.jit.sports.entry;
+package com.jit.sports.extra;
 
 import org.springframework.lang.NonNull;
 
@@ -11,6 +11,8 @@ public class MyLatLngPoint implements Comparable<MyLatLngPoint>{
         this.id = id;
         this.longitude = longitude;
         this.latitude = latitude;
+    }
+    public MyLatLngPoint() {
     }
     @Override
     public int compareTo(@NonNull MyLatLngPoint o)

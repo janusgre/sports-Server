@@ -1,6 +1,6 @@
 package com.jit.sports;
 
-import com.jit.sports.mqtt.MQTTConnect;
+import com.jit.sports.mqtt.MQTTClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,7 +9,7 @@ public class SportsApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SportsApplication.class, args);
-        MQTTConnect MQTTConnect = new MQTTConnect();
+        MQTTClient mqttClient = new MQTTClient();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.jit.sports.InfluxDB;
 import com.alibaba.fastjson.JSONObject;
 import com.jit.sports.Utils.PropertiesUtil;
+import com.jit.sports.extra.MyLatLngPoint;
 import org.influxdb.dto.QueryResult;
 
 import java.util.ArrayList;
@@ -64,7 +65,45 @@ public class InfluxDealData {
         return res;
 
     }
-    public  static  List<Double> getOneValue(String sportTag, String key) {
+    public  static List<MyLatLngPoint> getSprace(String sportTag) {
+        QueryResult results = influxDBConnection
+                .query("SELECT longitude,latitudeoll" +
+                        " FROM sportDetail " +
+                        "where sportTag = '"+ sportTag +"'  order by time asc");
+
+        QueryResult.Result oneResult = results.getResults().get(0);
+        //List<QueryResult.Series> series = oneResult.getSeries();
+        int i=0;
+        List<List<Object>> valueList = null;
+        List<MyLatLngPoint>res = new ArrayList<>();
+        if (oneResult.getSeries() != null)
+        {
+            valueList = oneResult.getSeries().stream().map(QueryResult.Series::getValues)
+                    .collect(Collectors.toList()).get(0);
+            if (valueList != null && valueList.size() > 0) {
+                for (List<Object> value : valueList) {
+
+                    MyLatLngPoint a = new MyLatLngPoint();
+                    String longitude = value.get(1) == null ? null : value.get(0).toString();
+                    String latitudeoll = value.get(2) == null ? null : value.get(1).toString();
+                    a.setId(i++);
+                    a.setLatitude(Double.valueOf(latitudeoll));
+                    a.setLongitude(Double.valueOf(longitude));
+                    res.add(a);
+
+                }
+            }
+        }
+
+//         JSONObject res = new JSONObject();
+//        for(QueryResult.Series series1 : series) {
+//            res.put("columns", series1.getColumns());
+//            res.put("values", series1.getValues());
+//        }
+        return res;
+
+    }
+    public static List<Double> getOneValue(String sportTag, String key) {
         QueryResult results = influxDBConnection
                 .query("SELECT "+ key +" FROM sportDetail " +
                         "where sportTag = '"+ sportTag +"'  order by time asc");
