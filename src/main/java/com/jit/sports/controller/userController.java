@@ -1,8 +1,6 @@
 package com.jit.sports.controller;
 
-import com.jit.sports.entry.UserInfo;
 import com.jit.sports.service.UserService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

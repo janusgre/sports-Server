@@ -3,12 +3,10 @@
 
 	<head>
 		<meta charset="utf-8" />
-		<!--<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1" />-->
 		<title>我的运动</title>
+		<link rel="shortcut icon" href="http://47.102.152.12:8080/img/logo.png">
 		<link rel="stylesheet" href="http://47.102.152.12:8080/css/bg.css" />
 		<link rel="stylesheet" href="http://47.102.152.12:8080/css/mySportsStyle.css" />
-		<!--<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">-->
-		<!--<link href="css/font-awesome.min.css" rel="stylesheet">-->
 		<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
 	</head>
 
@@ -22,9 +20,9 @@
 			</label>
 
 				<ul class="menu">
-					<a href="login">Login</a>
-					<a href="mysports">MySports</a>
-					<a href="#">About</a>
+					<a href="login" onclick="writeNameCokie()">退出登录</a>
+					<a href="mysports">我的运动</a>
+					<a href="#">关于</a>
 					<label for="chk" class="hide-menu-btn">
 					<i class="fa fa-times"></i>
 				</label>
@@ -32,7 +30,7 @@
 			</div>
 
 			<div class="subDiv">
-				<p class="subTitle">我的运动</p>
+				<p id="subTitle" class="subTitle">我的运动</p>
 			</div>
 
 			<div class="mySports" id="mySports"></div>
@@ -47,7 +45,7 @@
 						<li>运动方式:<strong>{{mode}}</strong></li>
 						<li>开始时间:<strong>{{startTime}}</strong></li>
 						<li>结束时间:<strong>{{overTime}}</strong></li>
-						<li>总里程:<strong>{{totalDistance}}</strong></li>
+						<li>总里程:<strong>{{totalDistance}}m</strong></li>
 						<!--<li>平均速度:<strong>{{averageSpeed}}</strong></li>
 						<li>最高配速:<strong>{{maxSpeed}}</strong></li>-->
 						<!--<li>最高海拔<strong>{{maxAltitude}}</strong></li>
@@ -55,7 +53,7 @@
 						<li>累计上升<strong>{{totalUp}}</strong></li>
 						<li>累计下降<strong>{{totalDown}}</strong></li>-->
 					</ul>
-					<a href="detail" onclick="writeCokie(this.type)" type={{sportTag}}>查看详情</a>
+					<a onclick="writeCokie(this.type)" href="detail" type={{sportTag}}>查看详情</a>
 				</div>
 			</div>
 		</script>

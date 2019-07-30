@@ -23,11 +23,11 @@ public class sportController {
     private SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     //开始一次运动
     @RequestMapping("/startSport")
-    public String startSport(@RequestParam (value = "userName")String userName) {
+    public String startSport(@RequestParam (value = "userName")String userName,
+                             @RequestParam(value = "sportTag")String sportTag) {
         long now = System.currentTimeMillis();
-        String sportTag = userName + now;
-        userService.insertSport(sportTag, userName, ft.format(now));
-        return sportTag;
+//        userService.insertSport(sportTag, userName, ft.format(now));
+        return "true";
     }
 
     //结束一次运动

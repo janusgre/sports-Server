@@ -61,7 +61,7 @@ public class MyCallback implements MqttCallback
                 JSONObject nowMessage = Redis.getDtae(obj);
                 MQTTClient.myPublish("sports/processedInfo/"+userName, nowMessage.toString().getBytes());
             }catch (Exception e){
-                System.out.println("mqtt error：radis可能未打开");
+                System.out.println("mqtt error：Radis");
             }
 
             //写入数据库
@@ -72,7 +72,7 @@ public class MyCallback implements MqttCallback
 					obj.getDoubleValue("accelerated_x"), obj.getDoubleValue("accelerated_y"),
 					obj.getDoubleValue("accelerated_z"), obj.getInteger("steps"));
 		}catch (Exception e){
-			System.out.println("mqtt error：可能接收到了不正确的格式");
+			System.out.println("mqtt error：InfluxDB");
 		}
 	}
 

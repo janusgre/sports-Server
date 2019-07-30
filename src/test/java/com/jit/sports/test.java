@@ -1,6 +1,7 @@
 package com.jit.sports;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 
@@ -30,7 +31,12 @@ public class test {
         System.out.println(s.getBytes().length);
     }*/
     public static void main(String[] args) {
-        List<Integer> res = new ArrayList<>();
-        res.add(1);
+        JSONArray array = new JSONArray();
+        JSONObject obj = new JSONObject();
+        obj.put("1", 1);
+        array.add(obj);
+        for(Object o : array) {
+            System.out.println(o);
+        }
     }
 }

@@ -5,6 +5,7 @@
 	<meta charset="utf-8" />
 	<!--<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1" />-->
 	<title>运动详情</title>
+	<link rel="shortcut icon" href="http://47.102.152.12:8080/img/logo.png">
 	<link rel="stylesheet" href="http://47.102.152.12:8080/css/bg.css" />
 	<link rel="stylesheet" href="http://47.102.152.12:8080/css/detailStyle.css" />
 	<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
@@ -32,16 +33,16 @@
 		</label>
 
 		<ul class="menu">
-			<a href="login">Login</a>
-			<a href="mysports">MySports</a>
-			<a href="#">About</a>
+			<a onclick="writeNameCokie()" href="login">退出登录</a>
+			<a href="mysports">我的运动</a>
+			<a href="#">关于</a>
 			<label for="chk" class="hide-menu-btn">
 				<i class="fa fa-times"></i>
 			</label>
 		</ul>
 	</div>
 
-	<p class="subTitle">运动详情</p>
+	<p id="subTitle" class="subTitle">运动详情</p>
 	<div id="allmap"></div>
 	<p id="sportTitle" class="pp"></p>
 	<div class="sportBriefDiv">
