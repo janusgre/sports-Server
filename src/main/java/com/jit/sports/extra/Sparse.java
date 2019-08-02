@@ -1,9 +1,12 @@
 package com.jit.sports.extra;
 
 
+import com.jit.sports.InfluxDB.InfluxDealData;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class Sparse {
     private ArrayList<MyLatLngPoint> latLngInit;
@@ -19,24 +22,35 @@ public class Sparse {
 
     }
 
-    public Sparse(ArrayList<MyLatLngPoint> latLngInit, int pMax) {
-        if (latLngInit==null)
+    public Sparse(List<MyLatLngPoint> latLngInit1, int pMax) {
+        if (latLngInit1==null)
         {
             throw new IllegalArgumentException("传入的经纬度为空");
         }
         this.start=0;
-        this.end = latLngInit.size()-1;
-        this.latLngInit = latLngInit;
+        this.end = latLngInit1.size()-1;
+        //System.out.println(latLngInit1.size());
+        //this.latLngInit = latLngInit;
+        ArrayList<MyLatLngPoint> latLngInit2 = new ArrayList<>();
+        for (int i=0;i<latLngInit1.size();i++)
+        {
+            System.out.println(latLngInit1.get(i));
+            latLngInit2.add(latLngInit1.get(i));
+        }
+        this.latLngInit = latLngInit2;
         this.pMax = pMax;
     }
 
 
     public double distToSegment(MyLatLngPoint start, MyLatLngPoint end, MyLatLngPoint center) {
-        double a = Math.abs(getDistance(start.getLatitude(),end.getLatitude(),start.getLongitude()
-        ,end.getLongitude()));
-        double b = Math.abs(getDistance(start.getLatitude(),center.getLatitude(),start.getLongitude()
+        double a = Math.abs(getDistance(start.getLatitude(),start.getLongitude(),end.getLatitude()
+                ,end.getLongitude()));
+        double b = Math.abs(getDistance(start.getLatitude(),start.getLongitude(),
+                center.getLatitude()
                 ,center.getLongitude()));
-        double c = Math.abs(getDistance(center.getLatitude(),end.getLatitude(),center.getLongitude()
+        double c = Math.abs(getDistance(center.getLatitude()
+                ,center.getLongitude()
+                ,end.getLatitude()
                 ,end.getLongitude()));
 
         double p = (a+b+c)/2.0;
@@ -78,18 +92,24 @@ public class Sparse {
     {
         int size = latLngInit.size()-1;
         ArrayList<MyLatLngPoint>later = new ArrayList<>();
-        later.add(latLngInit.get(0));
-        later.add(latLngInit.get(size));
-        ArrayList<MyLatLngPoint> last = compressLine(latLngInit.toArray(new MyLatLngPoint[size])
-        ,later,0,size-1,pMax);
+        try{
+            later.add(latLngInit.get(0));
+            later.add(latLngInit.get(size));
+            ArrayList<MyLatLngPoint> last = compressLine(latLngInit.toArray(new MyLatLngPoint[size])
+                    ,later,0,size-1,pMax);
 
-        Collections.sort(last, new Comparator<MyLatLngPoint>() {
-            @Override
-            public int compare(MyLatLngPoint o1, MyLatLngPoint o2) {
-                return o1.compareTo(o2);
-            }
-        });
-        return last;
+            Collections.sort(last, new Comparator<MyLatLngPoint>() {
+                @Override
+                public int compare(MyLatLngPoint o1, MyLatLngPoint o2) {
+                    return o1.compareTo(o2);
+                }
+            });
+            return last;
+        }catch (Exception e){
+
+        }
+        return new ArrayList<MyLatLngPoint>();
+
     }
     public static double getDistance(double lat1, double lng1, double lat2,
                                      double lng2) {
@@ -107,11 +127,20 @@ public class Sparse {
         return Math.round(s*100.0)/100.0;
     }
     public static double getDistance1(double lat1, double lng1, double lat2,
-                                     double lng2) {
+                                      double lng2) {
 
         double a =lat1-lat2;
         double b =lng1 -lng2;
         return Math.sqrt((a*a+b*b));
+    }
+
+    public void insertinflxdb(List<MyLatLngPoint> res,String sportsTag)
+    {
+        for (int i=0;i<res.size();i++)
+        {
+            InfluxDealData.insertLocationProcessedMsg(sportsTag,
+                    res.get(i).getLongitude(),res.get(i).getLatitude());
+        }
     }
 
 

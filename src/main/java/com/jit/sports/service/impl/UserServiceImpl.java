@@ -35,8 +35,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateSport(String sportTag, String overTime, double totalDistance, double totalUp, double totalDown, double averageSpeed, double maxSpeed, double maxAltitude, double minAltitude) {
-        userDao.updateSport(sportTag, overTime, totalDistance, totalUp, totalDown, averageSpeed, maxSpeed, maxAltitude, minAltitude);
+    public void updateSport(String sportTag, String overTime, double totalDistance, double totalUp,
+                            double totalDown, double averageSpeed, double maxSpeed, double maxAltitude,
+                            double minAltitude, String mode, String sportTitle) {
+        userDao.updateSport(sportTag, overTime, totalDistance, totalUp, totalDown, averageSpeed, maxSpeed,
+                maxAltitude, minAltitude, mode, sportTitle);
     }
 
     @Override
@@ -47,5 +50,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public SportInfo selectSportByTag(String sportTag) {
         return userDao.selectSportByTag(sportTag);
+    }
+
+    @Override
+    public String selectNotOverSport(String userName) {
+        return userDao.selectNotOverSport(userName);
     }
 }

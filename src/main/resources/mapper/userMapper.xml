@@ -20,7 +20,8 @@
     <update id="updateSport">
         update sportInfo set overTime=#{overTime}, totalDistance=#{totalDistance}, totalUp=#{totalUp},
         totalDown=#{totalDown}, averageSpeed=#{averageSpeed}, maxSpeed=#{maxSpeed},
-        maxAltitude=#{maxAltitude}, minAltitude=#{minAltitude} where sportTag=#{sportTag}
+        maxAltitude=#{maxAltitude}, minAltitude=#{minAltitude},mode=#{mode},sportTitle=#{sportTitle}
+        where sportTag=#{sportTag}
     </update>
 
     <insert id="insertSport">
@@ -28,7 +29,11 @@
     </insert>
 
     <select id="selectSportByName" resultType="com.jit.sports.entry.SportInfo">
-        select * from sportInfo where userName = #{userName}
+        select * from sportInfo where userName = #{userName} and overTime is not NULL order by startTime DESC
+    </select>
+
+    <select id="selectNotOverSport" resultType="String">
+        select sportTag from sportInfo where userName = #{userName} and overTime is NULL order by overTime desc limit 1
     </select>
 
     <select id="selectSportByTag" resultType="com.jit.sports.entry.SportInfo">

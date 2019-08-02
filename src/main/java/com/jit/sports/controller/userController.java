@@ -15,7 +15,7 @@ public class userController {
 
 
     //用户登录
-    @RequestMapping("/login")
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@RequestParam(value = "userName") String userName,
                        @RequestParam(value = "password") String password) {
         if(userService.login(userName, password) == null) {
@@ -25,7 +25,7 @@ public class userController {
     }
 
     //用户注册
-    @RequestMapping("/reg")
+    @RequestMapping(value = "/reg", method = RequestMethod.POST)
     public String reg(@RequestParam(value = "userName") String userName,
                        @RequestParam(value = "password") String password) {
         //检查是否被注册
@@ -36,10 +36,14 @@ public class userController {
         return "true";
     }
 
+    @RequestMapping("/notOverSport")
+    public String notOverSport(@RequestParam(value = "userName") String userName){
+        return  userService.selectNotOverSport(userName);
+    }
+
     @RequestMapping("/hello")
     public String test() {
         System.out.println("hello");
         return "hello";
     }
-
 }

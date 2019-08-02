@@ -2,7 +2,7 @@ body {
 	margin: 0;
 	padding: 0;
 	font-family: sans-serif;
-	background: url(http://47.102.152.12:8080/img/bg.jpg);
+	background: url(/img/bg.jpg);
 	background-size: cover;
 	background-attachment: fixed;
 }

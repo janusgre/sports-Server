@@ -8,8 +8,7 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-public class MyCallback implements MqttCallback
-{
+public class MyCallback implements MqttCallback {
 
 	@Override
 	public void connectionLost(Throwable cause) {
@@ -28,7 +27,7 @@ public class MyCallback implements MqttCallback
 		if (message.isRetained()) {
 			return;
 		}
-		System.out.println("in dealDevMsg : topic:	" + topic + "\t");
+//		System.out.println("in dealDevMsg : topic:	" + topic + "\t");
 
 		if(topic.startsWith("sports/sportInfo")) {
 			dealSportInfo(topic, message);
@@ -49,16 +48,17 @@ public class MyCallback implements MqttCallback
 		String userName = topic.substring(topic.lastIndexOf('/') + 1);
 
 		try {
-			System.out.println("payload:"+new String(message.getPayload()));
+//			System.out.println("payload:"+new String(message.getPayload()));
 			JSONObject obj = JSON.parseObject(new String(message.getPayload()));
-			if(obj.getString("altitude").contains("5e-324")) {
+			System.out.println(obj.getString("altitude"));
+			if(obj.getString("altitude").contains("E")) {
                 System.out.println("5e-324");
 			    return;
             }
 
 			//处理信息后返回给客户
             try{
-                JSONObject nowMessage = Redis.getDtae(obj);
+                JSONObject nowMessage = Redis.getData(obj);
                 MQTTClient.myPublish("sports/processedInfo/"+userName, nowMessage.toString().getBytes());
             }catch (Exception e){
                 System.out.println("mqtt error：Radis");

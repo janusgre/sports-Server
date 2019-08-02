@@ -12,8 +12,10 @@ public interface UserService {
     void insertSport(String sportTag, String userName, String startTime);
 
     void updateSport(String sportTag, String overTime,double totalDistance, double totalUp, double totalDown,
-                     double averageSpeed, double maxSpeed, double maxAltitude, double minAltitude);
+                     double averageSpeed, double maxSpeed, double maxAltitude, double minAltitude,
+                     String mode, String sportTitle);
 
     SportInfo[] selectSportByName(String userName);
     SportInfo selectSportByTag(String sportTag);
+    String selectNotOverSport(String userName);
 }

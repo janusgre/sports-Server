@@ -15,12 +15,14 @@ public interface UserDao {
     void insertSport(String sportTag, String userName, String startTime);
 
     void updateSport(String sportTag, String overTime,double totalDistance, double totalUp, double totalDown,
-                     double averageSpeed, double maxSpeed, double maxAltitude, double minAltitude);
+                     double averageSpeed, double maxSpeed, double maxAltitude, double minAltitude,
+                     String mode, String sportTitle);
 
     //根据用户查找所有运动
     SportInfo[] selectSportByName(String userName);
 
     SportInfo selectSportByTag(String sportTag);
     //根据用户查找固定时间段的运动
+    String selectNotOverSport(String userName);
 
 }

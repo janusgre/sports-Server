@@ -5,9 +5,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class test {
 
@@ -29,14 +29,24 @@ public class test {
         String s = "{\"columns\":[\"time\",\"longitude\",\"latitude\",\"elevation\",\"speed\",\"azimuth\",\"pitch\",\"roll\",\"accelerated_x\",\"accelerated_y\",\"accelerated_z\",\"steps\"],\"values\":[[\"2019-07-22T10:58:54.598Z\",118.89717,31.916263,33.8,0,233,-4,57,-8,0,5,12219],[\"2019-07-22T10:58:55.758Z\",118.89717,31.916263,33.8,0,233,-4,57,-8,0,5,12219],[\"2019-07-22T10:58:56.603Z\",118.89717,31.916263,33.8,0,233,-4,57,-8,0,5,12219]]}";
         JSONObject obj = JSON.parseObject(s);
         System.out.println(s.getBytes().length);
-    }*/
-    public static void main(String[] args) {
-        JSONArray array = new JSONArray();
+    }        JSONArray array = new JSONArray();
         JSONObject obj = new JSONObject();
         obj.put("1", 1);
         array.add(obj);
+        System.out.println(array.size());
         for(Object o : array) {
             System.out.println(o);
-        }
+        }*/
+    public static void main(String[] args) {
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        ft.setTimeZone(TimeZone.getTimeZone("Etc/GMT-8"));
+        String time = ft.format(new Date());
+        System.out.println(time);
+
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Etc/GMT-8"));
+        System.out.println("方法一:" + dateFormat.format(new Date()));
+
     }
 }

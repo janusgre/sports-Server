@@ -1,11 +1,10 @@
+var sportTag = getCookie("sportTag");
 if(sportTag === ""){
 	$("#subTitle").text("发生错误，即将跳转...");
 	setTimeout(function(){
 		window.location.href = "mysports"
 	}, 3000);
 }
-var sportTag = getCookie("sportTag");
-
 var map = new BMap.Map("allmap");
 map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用
 map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用
@@ -39,22 +38,23 @@ $.post('http://47.102.152.12:8080/sport/oneSport', {
 $.post('http://47.102.152.12:8080/sport/detail', {
 	'sportTag': sportTag
 }, function(res) {
-	var values = res["values"];
-	console.log(res)
-	var times = new Array();
-	var altitudes = new Array();
-	var speeds = new Array();
-	var steps = new Array();
-	var points = new Array();
-	$.each(values, function(index, content) {
+	var location = res["location"];
+	var speedAltitude = res["speedAltitude"];
+	console.log(res);
+	var times = [];
+	var altitudes = [];
+	var speeds = [];
+	var points = [];
+	$.each(location["values"], function(index, content) {
 		points[index] = new BMap.Point(content[1], content[2]);
+	});
+	$.each(speedAltitude["values"], function(index, content) {
 		times[index] = timeTranfrom(content[0]);
-		altitudes[index] = content[3];
-		speeds[index] = content[4];
-		steps[index] = content[5]
+		altitudes[index] = content[2];
+		speeds[index] = content[1]
 	});
 	initMap(points);
-	initEchart(times, altitudes, speeds, steps);
+	initEchart(times, altitudes, speeds);
 	document.getElementById('cube-wrapper').style.display = "none";
 	document.getElementById('preloader-body').style.display = "none";
 });
@@ -133,7 +133,7 @@ function initMap(points) {
 }
 
 //echart
-function initEchart(times, altitudes, speeds, steps) {
+function initEchart(times, altitudes, speeds) {
 	var dom = document.getElementById("echart");
 	var myChart = echarts.init(dom);
 	var app = {};
@@ -176,12 +176,12 @@ function initEchart(times, altitudes, speeds, steps) {
 			}
 		}],
 		yAxis: [{
-				type: 'value',
-				name: '速度',
-				axisLabel: {
-					formatter: '{value} m/s'
-				}
-			},
+			type: 'value',
+			name: '速度',
+			axisLabel: {
+				formatter: '{value} m/s'
+			}
+		},
 			{
 				type: 'value',
 				name: '海拔',
@@ -191,10 +191,10 @@ function initEchart(times, altitudes, speeds, steps) {
 			}
 		],
 		series: [{
-				name: '速度',
-				type: 'line',
-				data: speeds
-			},
+			name: '速度',
+			type: 'line',
+			data: speeds
+		},
 			{
 				name: '海拔',
 				areaStyle: {},
@@ -222,5 +222,4 @@ function initEchart(times, altitudes, speeds, steps) {
 	window.onresize = function() {
 		myChart.resize();
 	}
-
 }

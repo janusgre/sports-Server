@@ -48,5 +48,15 @@ $('#signupBtn').click(function() {
             $(txtError2).fadeOut(1000)
         }
     })
-
 });
+function pressEnter(nextKey) {
+    var eventObj = window.event || arguments[0];
+    if(eventObj.keyCode === 13) {
+        var inputEle = document.getElementById(nextKey);
+        if(inputEle.type === "button") {
+            inputEle.click();
+        } else {
+            inputEle.focus();
+        }
+    }
+}
