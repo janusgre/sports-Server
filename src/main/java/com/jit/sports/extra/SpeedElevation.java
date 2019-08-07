@@ -54,7 +54,7 @@ public class SpeedElevation {
         int size = last.size();
         int len =  size%frequency != 0 ? (size / frequency+1) : size/frequency;
         int j=0;
-        System.out.println(len);
+        System.out.println("len = "+len);
         for(int i = 0; i < len ; i++)
         {
            // System.out.println(j+"   "+frequency);
@@ -70,7 +70,6 @@ public class SpeedElevation {
     }
     public static SpeedElevation getAverage(List<SpeedElevation> allNums)
     {
-        System.out.println(allNums);
         double speed=0;
         double elevation=0;
         for (int i = 0; i < allNums.size(); i++)
@@ -105,7 +104,6 @@ public class SpeedElevation {
             return t;
        }
         long t = d.getTime();
-        System.out.println(t);
         return t;
     }
 }

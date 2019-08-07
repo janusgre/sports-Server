@@ -45,6 +45,15 @@ $.post('http://47.102.152.12:8080/sport/detail', {
 	var altitudes = [];
 	var speeds = [];
 	var points = [];
+	if(JSON.stringify(location)==="{}") {
+		document.getElementById('cube-wrapper').style.display = "none";
+		document.getElementById('preloader-body').style.display = "none";
+		$("#subTitle").text("本次运动无数据，即将跳转...");
+		setTimeout(function(){
+			window.location.href = "mysports"
+		}, 3000);
+		return;
+	}
 	$.each(location["values"], function(index, content) {
 		points[index] = new BMap.Point(content[1], content[2]);
 	});
@@ -62,9 +71,29 @@ $.post('http://47.102.152.12:8080/sport/detail', {
 function timeTranfrom(time) {
 	time = time.replace("T", " ");
 	time = time.substring(0, time.lastIndexOf('.'));
-	return time
+	time =  time+" UTC";
+	var newTime = Date.parse(new Date(time));
+	return formatlistdate(newTime);
 }
-
+function formatlistdate(time) {
+	var date = new Date(time);
+	var y = date.getFullYear();
+	var m = date.getMonth() + 1;
+	var d = date.getDate();
+	var hour = date.getHours().toString();
+	var minutes = date.getMinutes().toString();
+	var seconds = date.getSeconds().toString();
+	if(hour < 10) {
+		hour = "0" + hour;
+	}
+	if(minutes < 10) {
+		minutes = "0" + minutes;
+	}
+	if(seconds < 10) {
+		seconds = "0" + seconds;
+	}
+	return y + '-' + (m < 10 ? ('0' + m) : m) + '-' + (d < 10 ? ('0' + d) : d) + " " + hour + ":" + minutes + ":" + seconds;
+}
 function initMap(points) {
 	// 百度地图API功能
 	var point = new BMap.Point(points[0]);

@@ -1,5 +1,6 @@
 package com.jit.sports.controller;
 
+import com.jit.sports.entry.SportInfo;
 import com.jit.sports.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,7 @@ public class userController {
     }
 
     @RequestMapping("/notOverSport")
-    public String notOverSport(@RequestParam(value = "userName") String userName){
+    public SportInfo[] notOverSport(@RequestParam(value = "userName") String userName){
         return  userService.selectNotOverSport(userName);
     }
 

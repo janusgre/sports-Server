@@ -23,6 +23,6 @@ public interface UserDao {
 
     SportInfo selectSportByTag(String sportTag);
     //根据用户查找固定时间段的运动
-    String selectNotOverSport(String userName);
+    SportInfo[] selectNotOverSport(String userName);
 
 }

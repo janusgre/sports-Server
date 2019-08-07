@@ -50,9 +50,9 @@ public class MyCallback implements MqttCallback {
 		try {
 //			System.out.println("payload:"+new String(message.getPayload()));
 			JSONObject obj = JSON.parseObject(new String(message.getPayload()));
-			System.out.println(obj.getString("altitude"));
+
 			if(obj.getString("altitude").contains("E")) {
-                System.out.println("5e-324");
+				System.out.println(obj.getString("altitude"));
 			    return;
             }
 

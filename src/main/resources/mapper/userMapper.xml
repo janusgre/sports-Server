@@ -32,8 +32,8 @@
         select * from sportInfo where userName = #{userName} and overTime is not NULL order by startTime DESC
     </select>
 
-    <select id="selectNotOverSport" resultType="String">
-        select sportTag from sportInfo where userName = #{userName} and overTime is NULL order by overTime desc limit 1
+    <select id="selectNotOverSport" resultType="com.jit.sports.entry.SportInfo">
+        select * from sportInfo where userName = #{userName} and overTime is NULL order by startTime desc
     </select>
 
     <select id="selectSportByTag" resultType="com.jit.sports.entry.SportInfo">

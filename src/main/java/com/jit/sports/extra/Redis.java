@@ -42,7 +42,7 @@ public class Redis {
         String userTag = obj.getString("sportTag");
         double longitude = obj.getDoubleValue("longitude");
         double latitude = obj.getDoubleValue("latitude");
-        double altitude = obj.getDoubleValue("longitude");
+        double altitude = obj.getDoubleValue("altitude");
         Map<String, String> laterRedis = new HashMap<>();
 
         if(jedis.exists(obj.getString("sportTag"))) {
@@ -56,8 +56,6 @@ public class Redis {
                 laterRedis.put("altitude", String.valueOf(altitude));
                 laterRedis.put("startSteps",String.valueOf(obj.getInteger("steps")));
                 // System.out.println("hahahahhahahhahhahahhahahhahahahahahahahhahahaahhahahahahahah");
-            } else {
-                //System.out.println("llllllllllllllllllllllllllllllllllllllllllllllllllll");
             }
             //计算返回信息
             Double distance = Double.valueOf(laterRedis.get("currentMileage")) + Sparse.getDistance(Double.valueOf(laterRedis.get("latitude")), Double.valueOf(laterRedis.get("longitude")), latitude, longitude);
@@ -65,13 +63,14 @@ public class Redis {
             double speed = distance / time;
             double xspeed = 0;
             double xsteps = 0;
-            double currentDown = 0;
-            double currentUp = 0;
+            double currentDown = Double.valueOf(laterRedis.get("currentDown"));
+            double currentUp = Double.valueOf(laterRedis.get("currentUp"));
             if ( Double.valueOf(laterRedis.get("altitude")) > altitude) {
-                currentUp = Double.valueOf(obj.getDoubleValue("currentUp")) + Double.valueOf(laterRedis.get("altitude"))-altitude  ;
+                currentDown = Double.valueOf(laterRedis.get("currentDown"))+ Double.valueOf(laterRedis.get("altitude"))-altitude;
             } else {
-                currentDown = Double.valueOf(obj.getDoubleValue("currentUp")) + altitude-Double.valueOf(laterRedis.get("altitude"));
+                currentUp = Double.valueOf(laterRedis.get("currentUp")) + altitude-Double.valueOf(laterRedis.get("altitude"));
             }
+
             //跟新redis
             laterRedis.put("longitude", String.valueOf(longitude));
             laterRedis.put("latitude", String.valueOf(latitude));

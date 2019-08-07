@@ -122,7 +122,7 @@ public class InfluxDealData {
 
         QueryResult.Result oneResult = results.getResults().get(0);
         //List<QueryResult.Series> series = oneResult.getSeries();
-        int i=0;
+        int i = 0;
         List<List<Object>> valueList = null;
         List<MyLatLngPoint>res = new ArrayList<>();
         if (oneResult.getSeries() != null)

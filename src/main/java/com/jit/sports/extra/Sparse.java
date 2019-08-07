@@ -32,10 +32,9 @@ public class Sparse {
         //System.out.println(latLngInit1.size());
         //this.latLngInit = latLngInit;
         ArrayList<MyLatLngPoint> latLngInit2 = new ArrayList<>();
-        for (int i=0;i<latLngInit1.size();i++)
-        {
-            System.out.println(latLngInit1.get(i));
-            latLngInit2.add(latLngInit1.get(i));
+
+        for(MyLatLngPoint myLatLngPoint: latLngInit1) {
+            latLngInit2.add(myLatLngPoint);
         }
         this.latLngInit = latLngInit2;
         this.pMax = pMax;

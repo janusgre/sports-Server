@@ -60,13 +60,12 @@ public class sportController {
                 , mode, sportTitle);
         List<SpeedElevation> aa = InfluxDealData.getSpeedElevation(sportTag);
         List<SpeedElevation> bb = SpeedElevation.polymerization(aa,60);
-
         List<MyLatLngPoint> cc  = InfluxDealData.getSprace(sportTag);
-
         Sparse sparse = new Sparse(cc,10);
         List<MyLatLngPoint> dd  = sparse.compress();
         SpeedElevation.insertInflxdb(bb,sportTag);
         sparse.insertinflxdb(dd,sportTag);
+        jedis.del(sportTag);
     }
 
     //查看所有运动

@@ -72,7 +72,7 @@ public class InfluxDBConnection
 		{
 			influxDB = InfluxDBFactory.connect(openurl, username, password);
 		}
-		try
+		/*try
 		{
 			// if (!influxDB.databaseExists(database)) {
 			// influxDB.createDatabase(database);
@@ -84,7 +84,7 @@ public class InfluxDBConnection
 		} finally
 		{
 			influxDB.setRetentionPolicy(retentionPolicy);
-		}
+		}*/
 		influxDB.setLogLevel(InfluxDB.LogLevel.NONE);
 		System.out.println("连接influx");
 		return influxDB;
@@ -135,14 +135,14 @@ public class InfluxDBConnection
 	public void insert(String measurement, Map<String, String> tags, Map<String, Object> fields, long time,
 			TimeUnit timeUnit)
 	{
-		Builder builder = Point.measurement(measurement);
-		builder.tag(tags);
-		builder.fields(fields);
+		Builder pointBuilder = Point.measurement(measurement);
+		pointBuilder.tag(tags);
+		pointBuilder.fields(fields);
 		if (0 != time)
 		{
-			builder.time(time, timeUnit);
+			pointBuilder.time(time, timeUnit);
 		}
-		influxDB.write(database, retentionPolicy, builder.build());
+		influxDB.write(database, retentionPolicy, pointBuilder.build());
 	}
 
 	/**

@@ -38,15 +38,8 @@ public class test {
             System.out.println(o);
         }*/
     public static void main(String[] args) {
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        ft.setTimeZone(TimeZone.getTimeZone("Etc/GMT-8"));
-        String time = ft.format(new Date());
-        System.out.println(time);
-
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("Etc/GMT-8"));
-        System.out.println("方法一:" + dateFormat.format(new Date()));
+        int[][] matrix = new int[5][5];
+        System.out.println(matrix.length);
 
     }
 }

@@ -17,5 +17,5 @@ public interface UserService {
 
     SportInfo[] selectSportByName(String userName);
     SportInfo selectSportByTag(String sportTag);
-    String selectNotOverSport(String userName);
+    SportInfo[] selectNotOverSport(String userName);
 }

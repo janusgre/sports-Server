@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String selectNotOverSport(String userName) {
+    public SportInfo[] selectNotOverSport(String userName) {
         return userDao.selectNotOverSport(userName);
     }
 }
