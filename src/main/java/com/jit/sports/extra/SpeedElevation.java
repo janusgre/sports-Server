@@ -1,7 +1,8 @@
 package com.jit.sports.extra;
 
-import com.jit.sports.InfluxDB.InfluxDealData;
+import com.jit.sports.service.InfluxService;
 
+import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,6 +10,9 @@ import java.util.Date;
 import java.util.List;
 
 public class SpeedElevation {
+
+    @Resource
+    InfluxService influxService;
 
     String time;
     double elevation;
@@ -54,7 +58,7 @@ public class SpeedElevation {
         int size = last.size();
         int len =  size%frequency != 0 ? (size / frequency+1) : size/frequency;
         int j=0;
-        System.out.println("len = "+len);
+//        System.out.println("len = "+len);
         for(int i = 0; i < len ; i++)
         {
            // System.out.println(j+"   "+frequency);
@@ -81,29 +85,5 @@ public class SpeedElevation {
                 Math.round(elevation/(allNums.size()*1.0)*100.0)/100.0,
                 Math.round(speed/(allNums.size()*1.0)*100.0)/100.0);
         return res;
-    }
-    public static void insertInflxdb(List<SpeedElevation> res, String sportsTag)
-    {
-        for(int i=0;i<res.size();i++)
-        {
-            InfluxDealData.insertspeedAltitudeProcessedMsg(sportsTag,timeToLong(res.get(i).getTime())
-            ,res.get(i).getSpeed()
-            ,res.get(i).getElevation());
-        }
-    }
-    public static Long timeToLong(String time)
-    {
-
-        time = time.replace("Z", " UTC");
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
-        Date d = null;
-        try {
-            d = format1.parse(time);
-        } catch (ParseException e) {
-            long t=0;
-            return t;
-       }
-        long t = d.getTime();
-        return t;
     }
 }

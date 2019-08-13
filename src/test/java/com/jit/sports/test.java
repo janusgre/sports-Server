@@ -37,9 +37,7 @@ public class test {
         for(Object o : array) {
             System.out.println(o);
         }*/
-    public static void main(String[] args) {
-        int[][] matrix = new int[5][5];
-        System.out.println(matrix.length);
 
+    public static void main(String[] args) {
     }
 }

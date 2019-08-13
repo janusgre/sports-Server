@@ -7,10 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/page")
 public class pageController {
-    @GetMapping("/test")
-    public String test1() {
-        return "hellotest";
-    }
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -22,5 +18,9 @@ public class pageController {
     @GetMapping("/detail")
     public String detail() {
         return "detail";
+    }
+    @GetMapping("/test")
+    public String test1() {
+        return "hellotest";
     }
 }

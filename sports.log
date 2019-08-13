@@ -1,0 +1,21 @@
+2019-08-13 09:36:37.452  INFO 7384 --- [main] com.jit.sports.SportsApplication         : Starting SportsApplication on DESKTOP-T7398R1 with PID 7384 (C:\Users\11067\IdeaProjects\sports\target\classes started by 11067 in C:\Users\11067\IdeaProjects\sports)
+2019-08-13 09:36:37.458  INFO 7384 --- [main] com.jit.sports.SportsApplication         : No active profile set, falling back to default profiles: default
+2019-08-13 09:36:42.024  INFO 7384 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-08-13 09:36:42.053  INFO 7384 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2019-08-13 09:36:42.886  INFO 7384 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 51ms. Found 0 repository interfaces.
+2019-08-13 09:36:44.100  INFO 7384 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$85101038] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-08-13 09:36:45.053  INFO 7384 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-08-13 09:36:45.111  INFO 7384 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-08-13 09:36:45.112  INFO 7384 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.21]
+2019-08-13 09:36:45.125  INFO 7384 --- [main] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.18] of the APR based Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [1.2.21]
+2019-08-13 09:36:45.125  INFO 7384 --- [main] o.a.catalina.core.AprLifecycleListener   : Loaded APR based Apache Tomcat Native library [1.2.18] using APR version [1.6.5].
+2019-08-13 09:36:45.126  INFO 7384 --- [main] o.a.catalina.core.AprLifecycleListener   : APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2019-08-13 09:36:45.127  INFO 7384 --- [main] o.a.catalina.core.AprLifecycleListener   : APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2019-08-13 09:36:45.214  INFO 7384 --- [main] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 1.1.1  11 Sep 2018]
+2019-08-13 09:36:45.532  INFO 7384 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-08-13 09:36:45.532  INFO 7384 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 7756 ms
+2019-08-13 09:36:46.547  INFO 7384 --- [main] com.jit.sports.Utils.InfluxDbUtils       : 连接influx
+2019-08-13 09:36:47.795  INFO 7384 --- [main] com.jit.sports.Utils.InfluxDbUtils       : com.jit.sports.service.impl.MqttServiceImpl@1a1f79ce
+2019-08-13 09:36:48.231  INFO 7384 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2019-08-13 09:36:49.138  INFO 7384 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-08-13 09:36:49.156  INFO 7384 --- [main] com.jit.sports.SportsApplication         : Started SportsApplication in 18.367 seconds (JVM running for 25.967)

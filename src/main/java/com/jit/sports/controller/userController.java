@@ -2,6 +2,8 @@ package com.jit.sports.controller;
 
 import com.jit.sports.entry.SportInfo;
 import com.jit.sports.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -14,6 +16,7 @@ public class userController {
     @Resource
     UserService userService;
 
+    private static final Logger logger = LoggerFactory.getLogger(userController.class);
 
     //用户登录
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -44,7 +47,7 @@ public class userController {
 
     @RequestMapping("/hello")
     public String test() {
-        System.out.println("hello");
+        logger.info("hello");
         return "hello";
     }
 }

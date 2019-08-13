@@ -1,8 +1,9 @@
 package com.jit.sports.extra;
 
 
-import com.jit.sports.InfluxDB.InfluxDealData;
+import com.jit.sports.service.InfluxService;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -131,15 +132,6 @@ public class Sparse {
         double a =lat1-lat2;
         double b =lng1 -lng2;
         return Math.sqrt((a*a+b*b));
-    }
-
-    public void insertinflxdb(List<MyLatLngPoint> res,String sportsTag)
-    {
-        for (int i=0;i<res.size();i++)
-        {
-            InfluxDealData.insertLocationProcessedMsg(sportsTag,
-                    res.get(i).getLongitude(),res.get(i).getLatitude());
-        }
     }
 
 

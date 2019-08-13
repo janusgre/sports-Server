@@ -8,6 +8,7 @@ if(sportTag === ""){
 var map = new BMap.Map("allmap");
 map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用
 map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用
+
 // 定义一个控件类,即function
 function ZoomControl() {
 	// 默认停靠位置和偏移量

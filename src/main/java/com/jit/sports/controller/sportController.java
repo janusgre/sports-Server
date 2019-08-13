@@ -1,18 +1,19 @@
 package com.jit.sports.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jit.sports.InfluxDB.InfluxDealData;
+import com.jit.sports.Dao.RedisDao;
 import com.jit.sports.entry.SportInfo;
 import com.jit.sports.extra.MyLatLngPoint;
-import com.jit.sports.extra.Redis;
 import com.jit.sports.extra.Sparse;
 import com.jit.sports.extra.SpeedElevation;
+import com.jit.sports.service.InfluxService;
 import com.jit.sports.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -27,16 +28,34 @@ import java.util.Map;
 public class sportController {
     @Resource
     UserService userService;
+    @Resource
+    InfluxService influxService;
+    @Resource
+    RedisDao redisDao;
 
     private SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+    private static final Logger logger = LoggerFactory.getLogger(sportController.class);
     //开始一次运动
     @RequestMapping("/startSport")
     public String startSport(@RequestParam (value = "userName")String userName,
                              @RequestParam(value = "sportTag")String sportTag) {
         long now = System.currentTimeMillis();
         userService.insertSport(sportTag, userName, ft.format(now));
-        Redis redis = new Redis(sportTag,0,0,0,0);
+        //Redis redis = new Redis(sportTag,0,0,0,0);
+        Map<String,String>a=new HashMap<>();
+        a.put("startSteps","0");
+        a.put("longitude","0" );
+        a.put("latitude", "0");
+        a.put("altitude", "0");
+//        a.put("startSteps","0");
+//        a.put("currentMileage", "0");
+//        a.put("currentTime", "0");
+//        a.put("currentUp", "0");
+//        a.put("currentDown", "0");
+//        a.put("maxSpeed","0");
+//        a.put("maxAltitude","0");
+//        a.put("minAltitude","0");
+        redisDao.putHashTable(sportTag,a);
         return "true";
     }
 
@@ -46,10 +65,12 @@ public class sportController {
                           @RequestParam (value = "mode") String mode,
                           @RequestParam (value = "sportTitle") String sportTitle) {
         String time = ft.format(new Date());
-
-        Jedis jedis = new Jedis("47.102.152.12", 6379);
+        logger.info("in overSport");
         Map<String, String> laterRedis = new HashMap<>();
-        laterRedis = jedis.hgetAll(sportTag);
+        laterRedis = redisDao.getHashMap(sportTag);
+        if(laterRedis==null)
+            return;
+//        logger.info(laterRedis.toString());
         userService.updateSport(sportTag, time,myMathRound(Double.valueOf(laterRedis.get("currentMileage")))
                 ,myMathRound(Double.valueOf(laterRedis.get("currentUp")))
                 ,myMathRound(Double.valueOf(laterRedis.get("currentDown")))
@@ -58,14 +79,16 @@ public class sportController {
                 ,myMathRound(Double.valueOf(laterRedis.get("maxAltitude")))
                 ,myMathRound(Double.valueOf(laterRedis.get("minAltitude")))
                 , mode, sportTitle);
-        List<SpeedElevation> aa = InfluxDealData.getSpeedElevation(sportTag);
+        //抽稀加聚合
+        List<SpeedElevation> aa = influxService.getSpeedElevation(sportTag);
         List<SpeedElevation> bb = SpeedElevation.polymerization(aa,60);
-        List<MyLatLngPoint> cc  = InfluxDealData.getSprace(sportTag);
+        List<MyLatLngPoint> cc  = influxService.getSprace(sportTag);
         Sparse sparse = new Sparse(cc,10);
         List<MyLatLngPoint> dd  = sparse.compress();
-        SpeedElevation.insertInflxdb(bb,sportTag);
-        sparse.insertinflxdb(dd,sportTag);
-        jedis.del(sportTag);
+
+        influxService.insertspeedAltitudeProcessedMsg(bb,sportTag);
+        influxService.insertLocationProcessedMsg(dd,sportTag);
+        redisDao.deletekey(sportTag);
     }
 
     //查看所有运动
@@ -82,7 +105,7 @@ public class sportController {
     //查看运动详情
     @RequestMapping("/detail")
     public JSONObject detail(@RequestParam (value = "sportTag")String sportTag) {
-        return InfluxDealData.getProcessedMsgByTag(sportTag);
+        return influxService.getProcessedMsgByTag(sportTag);
     }
 
     static double myMathRound(double num) {

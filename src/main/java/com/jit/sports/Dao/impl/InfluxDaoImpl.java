@@ -1,10 +1,15 @@
-package com.jit.sports.InfluxDB;
+package com.jit.sports.Dao.impl;
+
 import com.alibaba.fastjson.JSONObject;
-import com.jit.sports.Utils.PropertiesUtil;
+import com.jit.sports.Dao.InfluxDao;
+import com.jit.sports.Utils.InfluxDbUtils;
 import com.jit.sports.extra.MyLatLngPoint;
 import com.jit.sports.extra.SpeedElevation;
 import org.influxdb.dto.QueryResult;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,70 +17,16 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class InfluxDealData {
+/**
+ * Created by xushangyu on 2019/8/9.
+ */
+@Repository
+public class InfluxDaoImpl implements InfluxDao{
 
-    //    private static final String InfluxOpenUrl = PropertiesUtil.getProperty("influxDB.url");
-    private static final String InfluxOpenUrl = "http://47.102.152.12:8086";
-    private static final String InfluxUsername = "root";
-    private static final String InfluxPasswd = "123456";
-    private static final String InfluxDatabase = "sports";
-    private static InfluxDBConnection influxDBConnection = new InfluxDBConnection(InfluxUsername,
-            InfluxPasswd, InfluxOpenUrl,InfluxDatabase, null);
+    @Autowired
+    InfluxDbUtils influxDbUtils;
 
-    //插入数据
-
-    //插入原始运动数据
-    public static void writeSportInfoIntoDB(String sportTag, double longitude, double latitude,
-                                            double altitude, double speed, double azimuth,
-                                            double pitch, double roll,
-                                            double accelerated_x, double accelerated_y,
-                                            double accelerated_z, int steps) {
-        Map<String, String> tags = new HashMap<String, String>();
-        Map<String, Object> fields = new HashMap<String, Object>();
-        tags.put("sportTag", sportTag);
-        fields.put("longitude", longitude);
-        fields.put("latitude", latitude);
-        fields.put("altitude", altitude);
-        fields.put("speed", speed);
-        fields.put("azimuth", azimuth);
-        fields.put("pitch", pitch);
-        fields.put("roll", roll);
-        fields.put("accelerated_x", accelerated_x);
-        fields.put("accelerated_y", accelerated_y);
-        fields.put("accelerated_z", accelerated_z);
-        fields.put("steps", steps);
-
-        influxDBConnection.insert("sportDetail", tags, fields, System.currentTimeMillis(),
-                TimeUnit.MILLISECONDS);
-
-        System.out.println(sportTag + "插入一条记录。");
-    }
-
-    //插入抽稀后的位置信息
-    public static void insertLocationProcessedMsg(String sportTag, double longitude,double latitude){
-        Map<String, String> tags = new HashMap<String, String>();
-        Map<String, Object> fields = new HashMap<String, Object>();
-        fields.put("longitude", longitude);
-        fields.put("latitude", latitude);
-        tags.put("sportTag", sportTag);
-
-        influxDBConnection.insert("locationDetail", tags, fields,System.currentTimeMillis(),
-                TimeUnit.MILLISECONDS);
-    }
-
-    //插入聚合后的速度、海拔信息
-    public static void insertspeedAltitudeProcessedMsg(String sportTag, long time, double speed,double altitude){
-        Map<String, String> tags = new HashMap<String, String>();
-        Map<String, Object> fields = new HashMap<String, Object>();
-        fields.put("speed", speed);
-        fields.put("altitude", altitude);
-        tags.put("sportTag", sportTag);
-
-        influxDBConnection.insert("speedAltitudeDetail", tags, fields, time, TimeUnit.MILLISECONDS);
-    }
-
-    //读取数据
-
+    private static final Logger logger = LoggerFactory.getLogger(InfluxDao.class);
     //取出结果集中的数据
     public static JSONObject packageMsg(QueryResult results) {
         QueryResult.Result oneResult = results.getResults().get(0);
@@ -92,31 +43,80 @@ public class InfluxDealData {
         return res;
     }
 
-    //取出处理后的信息
-    public static JSONObject getProcessedMsgByTag(String sportTag) {
+    @Override
+    public void writeSportInfoIntoDB(String sportTag, double longitude, double latitude, double altitude, double speed, double azimuth, double pitch, double roll, double accelerated_x, double accelerated_y, double accelerated_z, int steps) {
+        Map<String, String> tags = new HashMap<String, String>();
+        Map<String, Object> fields = new HashMap<String, Object>();
+        tags.put("sportTag", sportTag);
+        fields.put("longitude", longitude);
+        fields.put("latitude", latitude);
+        fields.put("altitude", altitude);
+        fields.put("speed", speed);
+        fields.put("azimuth", azimuth);
+        fields.put("pitch", pitch);
+        fields.put("roll", roll);
+        fields.put("accelerated_x", accelerated_x);
+        fields.put("accelerated_y", accelerated_y);
+        fields.put("accelerated_z", accelerated_z);
+        fields.put("steps", steps);
+
+//        System.out.println(influxDbUtils);
+        influxDbUtils.insert("sportDetail", tags, fields, System.currentTimeMillis(),
+                TimeUnit.MILLISECONDS);
+
+        logger.info(sportTag + "插入一条记录。");
+    }
+
+    //插入抽稀后的位置信息
+    @Override
+    public void insertLocationProcessedMsg(String sportTag, double longitude,double latitude){
+        Map<String, String> tags = new HashMap<String, String>();
+        Map<String, Object> fields = new HashMap<String, Object>();
+        fields.put("longitude", longitude);
+        fields.put("latitude", latitude);
+        tags.put("sportTag", sportTag);
+
+        influxDbUtils.insert("locationDetail", tags, fields,System.currentTimeMillis(),
+                TimeUnit.MILLISECONDS);
+    }
+
+    //插入聚合后的速度、海拔信息
+    @Override
+    public void insertspeedAltitudeProcessedMsg(String sportTag, long time, double speed, double altitude) {
+        Map<String, String> tags = new HashMap<String, String>();
+        Map<String, Object> fields = new HashMap<String, Object>();
+        fields.put("speed", speed);
+        fields.put("altitude", altitude);
+        tags.put("sportTag", sportTag);
+
+        influxDbUtils.insert("speedAltitudeDetail", tags, fields, time, TimeUnit.MILLISECONDS);
+    }
+
+    @Override
+    public JSONObject getProcessedMsgByTag(String sportTag) {
         JSONObject res = new JSONObject();
-        QueryResult results = influxDBConnection
+        QueryResult results = influxDbUtils
                 .query("SELECT time,longitude,latitude FROM locationDetail " +
                         "where sportTag = '"+ sportTag +"'  order by time asc");
         res.put("location", packageMsg(results));
-        QueryResult results2 = influxDBConnection
+        QueryResult results2 = influxDbUtils
                 .query("SELECT time,speed,altitude FROM speedAltitudeDetail " +
                         "where sportTag = '"+ sportTag +"'  order by time asc");
         res.put("speedAltitude", packageMsg(results2));
         return res;
     }
 
-    //取出未处理的信息
-    public static JSONObject getSportDetailByTag(String sportTag) {
-        QueryResult results = influxDBConnection
+    @Override
+    public JSONObject getSportDetailByTag(String sportTag) {
+        QueryResult results = influxDbUtils
                 .query("SELECT time,longitude,latitude,altitude,speed,steps FROM sportDetail " +
                         "where sportTag = '"+ sportTag +"'  order by time asc");
         return packageMsg(results);
     }
 
-    //取出位置信息
-    public static List<MyLatLngPoint> getSprace(String sportTag) {
-        QueryResult results = influxDBConnection
+    @Override
+    public List<MyLatLngPoint> getSprace(String sportTag) {
+        QueryResult results = influxDbUtils
                 .query("SELECT longitude,latitude FROM sportDetail " +
                         "where sportTag = '"+ sportTag +"'  order by time asc");
 
@@ -147,12 +147,11 @@ public class InfluxDealData {
             }
         }
         return res;
-
     }
 
-    //取出某项信息（速度、海拔）
-    public static List<Double> getOneValue(String sportTag, String key) {
-        QueryResult results = influxDBConnection
+    @Override
+    public List<Double> getOneValue(String sportTag, String key) {
+        QueryResult results = influxDbUtils
                 .query("SELECT "+ key +" FROM sportDetail " +
                         "where sportTag = '"+ sportTag +"'  order by time asc");
 
@@ -174,8 +173,10 @@ public class InfluxDealData {
         }
         return res;
     }
-    public static List<SpeedElevation> getSpeedElevation(String sportTag) {
-        QueryResult results = influxDBConnection
+
+    @Override
+    public List<SpeedElevation> getSpeedElevation(String sportTag) {
+        QueryResult results = influxDbUtils
                 .query("SELECT altitude,speed FROM sportDetail " +
                         "where sportTag = '"+ sportTag +"'  order by time asc");
 
@@ -201,5 +202,4 @@ public class InfluxDealData {
         }
         return res;
     }
-
 }
